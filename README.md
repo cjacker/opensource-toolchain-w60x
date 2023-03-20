@@ -102,3 +102,9 @@ Or run `wm_tool` manually:
 ```
 
 # Debugging
+
+|------|-----------|
+| PB6  | TMS/SWDIO |
+| PB7  | TCK/SWCLK |
+| GND  | GND       |
+| 3V3  | 3V3/VREF  |
