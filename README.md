@@ -15,9 +15,9 @@ I haven’t seen many devices using this chip in the market, so I’m not sure a
 
 # Toolchain overview
 - Compiler: arm-none-eabi GNU Toolchain
-- SDK: wm-sdk-w60x
+- SDK: [wm-sdk-w60x](https://github.com/cjacker/wm-sdk-w60x)
 - Programming tool: wm_tool integrated in wm-sdk-w60x
-- Debugging: w60x-openocd / gdb
+- Debugging: [w60x-openocd](https://github.com/cjacker/w60x-openocd) / gdb
 
 
 # Compiler
@@ -75,7 +75,7 @@ The fireware file `wm_w600_gz.img` and other related files will be genereated at
 
 If you use device with 2M flash, you should change `USE_2M_FLASH = 0` to `USE_2M_FLASH = 1` in `Tools/GNU/Makefile`.
 
-By default, the firmware will be built as `WM_AT` firmwares, for usage of `WM_AT`, refer to below sections.
+By default, the firmware will be built as `WM_AT` firmwares. WM_AT is something like ESP-AT, for simple intro and usage of `WM_AT`, refer to below sections.
 
-If you want to build your own codes or build some examples, please copy `main.c` from examples to `App` dir.
+If you want to build your own codes or build some examples, please copy `main.c` from examples to `App` dir and build the project again.
 
