@@ -79,3 +79,26 @@ By default, the firmware will be built as `WM_AT` firmwares. WM_AT is something 
 
 If you want to build your own codes or build some examples, please copy `main.c` from examples to `App` dir and build the project again.
 
+
+# Programming
+
+After firmware built, program it to target device by:
+
+```
+make -C Tools/GNU flash
+```
+First time programming, it will inform you:
+```
+unable to download because no serial port is configured.
+please open the download_img.sh file (e.g: vim ./download_img.sh),
+and configure SERIAL_NAME to the serial port number you are using.
+```
+
+You need change `SERIAL_NAME=` to `SERIAL_NAME=<your device>` in `Tools/GNU/download_img.sh`, `your device` usually is `ttyUSB0`.
+
+Or run `wm_tool` manually:
+```
+./Tools/wm_tool -c ttyUSB0 -ds 2M -dl Bin/wm_w600_gz.img -ws 115200 -rs at
+```
+
+# Debugging
