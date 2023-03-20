@@ -102,7 +102,7 @@ Or run `wm_tool` manually:
 ```
 
 # Debugging
-
+| W600 | JTag/SWD  |
 |------|-----------|
 | PB6  | TMS/SWDIO |
 | PB7  | TCK/SWCLK |
