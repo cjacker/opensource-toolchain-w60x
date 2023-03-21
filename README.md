@@ -74,7 +74,7 @@ The fireware file `wm_w600_gz.img` and other related files will be genereated at
 
 If you use device with 2M flash, you should change `USE_2M_FLASH = 0` to `USE_2M_FLASH = 1` in `Tools/GNU/Makefile`.
 
-By default, the firmware will be built as `WM_AT` firmwares. WM_AT is something like ESP-AT, for simple intro and usage of `WM_AT`, refer to below sections.
+By default, the firmware will be built as `WM_AT` firmwares. WM_AT is something like ESP-AT, for more usage about `WM_AT`, please refer to official "[AT command user manual](https://github.com/cjacker/wm-sdk-w60x/blob/main/Doc.EN/WM_W60X_SDK_AT_Command_V1.0.3.pdf)".
 
 If you want to build your own codes or build some examples, please copy `main.c` from examples to `App` dir and build the project again.
 
