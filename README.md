@@ -9,12 +9,14 @@ I haven’t seen many devices using this chip in the market, so I’m not sure a
 # Hardware prerequiest
 - A W600 devboard
   + I will use TB-01 devboard and TW-01 WiFi module made by Thingsturn.com in this tutorial.
+- JLink debugger
+  + As I verified, DAP-Link and ST-Link didn't work as expected.
 
 # Toolchain overview
 - Compiler: arm-none-eabi GNU Toolchain
 - SDK: [wm-sdk-w60x](https://github.com/cjacker/wm-sdk-w60x), partial opensource, `wlan.lib` is close source.
 - Programming tool: wm_tool integrated in wm-sdk-w60x
-- Debugging: **broken**
+- Debugging: OpenOCD / gdb
 
 # Compiler
 
@@ -99,18 +101,24 @@ Or run `wm_tool` manually:
 
 # Debugging
 
-**Broken**
+W600 debugging was already supported by upstream OpenOCD.
 
+## enable debug building
+Open `Tools/toolchain.def`, find `CXX_optimization =` and change it to `CXX_optimization = -g`.
 
-W600 debugging can be supported by upstream OpenOCD and forked w60x-openocd v0.10, but seems both not work. 
+Then rebuild whole project as :
+```
+make -C Tools/GNU clean
+make -C Tools/GNU
+```
+The firmware and related files we will used are:
+- `./Bin/wm_w600_dbg.img` : debugging firmware need to flash to target device.
+- `./Tools/GNU/wm_w600.elf` : elf with debugging symbols need to load by gdb.
 
-I tried it with DAP-Link, ST-Link and JLink debugger :
-- Firmware flashing only works with JLink.
-- When encountering a breakpoint, the program does not stop running.
+If you use 1M device and report flash overflow when building, please try to remove some unused libraries and reduce the final image size.
 
-I don’t have much interest to fix it. This tutorial will be updated if this issue fixed.
-
-Pinmap:
+## launch openocd
+Wire up JLink debugger and target device as below table:
 | W600 | JTag/SWD  |
 |------|-----------|
 | PB6  | TMS/SWDIO |
@@ -118,3 +126,74 @@ Pinmap:
 | GND  | GND       |
 | 3V3  | 3V3/VREF  |
 
+And launch OpenOCD as 
+```
+openocd -f w600_jlink.cfg -f w600.cfg
+```
+`w600_jlink.cfg` is the interface cfg file and `w600.cfg` is the target cfg file, both can be found in this repo.
+
+Here I use J-Link EDU Mini debugger, the output looks like:
+```
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
+Info : J-Link EDU Mini V1 compiled Feb 20 2023 12:20:30
+Info : Hardware version: 1.00
+Info : VTarget = 3.294 V
+Info : clock speed 1000 kHz
+Info : SWD DPIDR 0x2ba01477
+Info : [w600.cpu] Cortex-M3 r2p1 processor detected
+Info : [w600.cpu] target has 6 breakpoints, 4 watchpoints
+Info : starting gdb server for w600.cpu on 3333
+Info : Listening on port 3333 for gdb connections
+```
+
+## use arm-none-eabi-gdb to debug
+
+Run `arm-none-eabi-gdb` from SDK topdir and when `(gdb)` prompt, input below commands.
+
+Connect to target device
+```
+(gdb) target remote :3333
+Remote debugging using :3333
+warning: No executable has been specified and target does not support
+determining executable automatically.  Try using the "file" command.
+0x080104d6 in ?? ()
+```
+
+Halt target device
+```
+(gdb) monitor reset halt
+[w600.cpu] halted due to debug-request, current mode: Thread
+xPSR: 0x01000000 pc: 0x0000051e msp: 0x20030cd8
+```
+
+Flash debugging firmware to target device
+```
+(gdb) monitor flash write_image erase <abosolute path>/wm-sdk-w60x/Bin/wm_w600_dbg.img 0x8010000
+auto erase enabled
+wrote 565248 bytes from file /home/cjacker/mcu/wm-sdk-w60x/Bin/wm_w600_dbg.img in 30.093807s (18.343 KiB/s)
+```
+
+There are maybe some error output such as `Failed to read memory ...`, it's safe to ignore it. 
+
+And be patient to wait flashing finished, it may take some time.
+
+Load debugging symbol
+```
+(gdb) file Tools/GNU/wm_w600.elf
+A program is being debugged already.
+Are you sure you want to change the file? (y or n) y
+Reading symbols from Tools/GNU/wm_w600.elf...
+```
+
+Start debugging
+```
+(gdb) b UserMain
+Breakpoint 1 at 0x80104d6: file /home/cjacker/mcu/wm-sdk-w60x/Tools/GNU/../../App/main.c, line 52.
+Note: automatically using hardware breakpoints for read-only addresses.
+(gdb) c
+Continuing.
+
+Breakpoint 1, UserMain () at /home/cjacker/mcu/wm-sdk-w60x/Tools/GNU/../../App/main.c:52
+52          printf("\r\nw600 blink example, compile @%s %s\r\n", __DATE__, __TIME__);
+```
