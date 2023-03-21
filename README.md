@@ -4,14 +4,11 @@ Winner Macro W600 is an embedded Wi-Fi SoC chip which is complying with IEEE802.
 
 For more information about W600 chip, please refer to the [spec](https://github.com/cjacker/wm-sdk-w60x/blob/main/Doc.EN/W600_Specification_V1.0.2_EN.pdf).
 
-I haven’t seen many devices using this chip in the market, so I’m not sure about its market share. There are limited options of development boards available for purchase on Aliexpress, most of them were made by thingsturn.com, include TW-01, a pin-to-pin replacement of ESP8266 WiFi module.
-
-
+I haven’t seen many devices using this chip in the market, so I’m not sure about its market share. There are very limited options of development boards available for purchase on Aliexpress, most of them were made by thingsturn.com, include TW-01 (ESP8266 pin-to-pin replacement). So I don’t think it’s worth spending a lot of time to learn, the reason that prompted me to write this simple tutorial is that I need to compile the `WM_AT` firmware.
 
 # Hardware prerequiest
 - A W600 devboard
   + I will use TB-01 devboard and TW-01 WiFi module made by Thingsturn.com in this tutorial.
-- DAP-Link/JLink Debugger
 
 # Toolchain overview
 - Compiler: arm-none-eabi GNU Toolchain
@@ -101,12 +98,13 @@ Or run `wm_tool` manually:
 ```
 
 # Debugging
-
 **Broken**
-- Programming only works with JLink.
+W600 debugging can be supported by upstream OpenOCD and forked w60x-openocd v0.10, but as I tried, both not works. 
+I tried it with DAP-Link, ST-Link and JLink debugger :
+- Firmware flashing only works with JLink.
 - When encountering a breakpoint, the program does not stop running.
 
-I don’t have much interest to fix it now. This tutorial will be updated if this issue fixed.
+I don’t have much interest to fix it. This tutorial will be updated if this issue fixed.
 
 Pinmap:
 | W600 | JTag/SWD  |
