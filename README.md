@@ -12,7 +12,7 @@ I haven’t seen many devices using this chip in the market, so I’m not sure a
 
 # Toolchain overview
 - Compiler: arm-none-eabi GNU Toolchain
-- SDK: [wm-sdk-w60x](https://github.com/cjacker/wm-sdk-w60x)
+- SDK: [wm-sdk-w60x](https://github.com/cjacker/wm-sdk-w60x), partial opensource, `wlan.lib` is close source.
 - Programming tool: wm_tool integrated in wm-sdk-w60x
 - Debugging: **broken**
 
