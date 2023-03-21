@@ -17,8 +17,7 @@ I haven’t seen many devices using this chip in the market, so I’m not sure a
 - Compiler: arm-none-eabi GNU Toolchain
 - SDK: [wm-sdk-w60x](https://github.com/cjacker/wm-sdk-w60x)
 - Programming tool: wm_tool integrated in wm-sdk-w60x
-- Debugging: [w60x-openocd](https://github.com/cjacker/w60x-openocd) / gdb
-
+- Debugging: **broken**
 
 # Compiler
 
@@ -102,9 +101,18 @@ Or run `wm_tool` manually:
 ```
 
 # Debugging
+
+**Broken**
+- Programming only works with JLink.
+- When encountering a breakpoint, the program does not stop running.
+
+I don’t have much interest to fix it now. This tutorial will be updated if this issue fixed.
+
+Pinmap:
 | W600 | JTag/SWD  |
 |------|-----------|
 | PB6  | TMS/SWDIO |
 | PB7  | TCK/SWCLK |
 | GND  | GND       |
 | 3V3  | 3V3/VREF  |
+
