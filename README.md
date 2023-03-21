@@ -169,9 +169,9 @@ xPSR: 0x01000000 pc: 0x0000051e msp: 0x20030cd8
 
 Flash debugging firmware to target device
 ```
-(gdb) monitor flash write_image erase <abosolute path>/wm-sdk-w60x/Bin/wm_w600_dbg.img 0x8010000
+(gdb) monitor flash write_image erase <absolute path>/wm-sdk-w60x/Bin/wm_w600_dbg.img 0x8010000
 auto erase enabled
-wrote 565248 bytes from file /home/cjacker/mcu/wm-sdk-w60x/Bin/wm_w600_dbg.img in 30.093807s (18.343 KiB/s)
+wrote 565248 bytes from file <absolute path>/wm-sdk-w60x/Bin/wm_w600_dbg.img in 30.093807s (18.343 KiB/s)
 ```
 
 There are maybe some error output such as `Failed to read memory ...`, it's safe to ignore it. 
@@ -189,11 +189,11 @@ Reading symbols from Tools/GNU/wm_w600.elf...
 Start debugging
 ```
 (gdb) b UserMain
-Breakpoint 1 at 0x80104d6: file /home/cjacker/mcu/wm-sdk-w60x/Tools/GNU/../../App/main.c, line 52.
+Breakpoint 1 at 0x80104d6: file wm-sdk-w60x/Tools/GNU/../../App/main.c, line 52.
 Note: automatically using hardware breakpoints for read-only addresses.
 (gdb) c
 Continuing.
 
-Breakpoint 1, UserMain () at /home/cjacker/mcu/wm-sdk-w60x/Tools/GNU/../../App/main.c:52
+Breakpoint 1, UserMain () at wm-sdk-w60x/Tools/GNU/../../App/main.c:52
 52          printf("\r\nw600 blink example, compile @%s %s\r\n", __DATE__, __TIME__);
 ```
