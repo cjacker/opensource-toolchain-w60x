@@ -98,8 +98,12 @@ Or run `wm_tool` manually:
 ```
 
 # Debugging
+
 **Broken**
-W600 debugging can be supported by upstream OpenOCD and forked w60x-openocd v0.10, but as I tried, both not works. 
+
+
+W600 debugging can be supported by upstream OpenOCD and forked w60x-openocd v0.10, but seems both not work. 
+
 I tried it with DAP-Link, ST-Link and JLink debugger :
 - Firmware flashing only works with JLink.
 - When encountering a breakpoint, the program does not stop running.
